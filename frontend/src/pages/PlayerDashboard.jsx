@@ -102,8 +102,16 @@ export default function PlayerDashboard() {
     setPlayers(players.map(p => p.id === updatedPlayer.id ? updatedPlayer : p));
     setIsEditing(false);
     
-    // In production, we'd fire a PUT/PATCH request to the backend here:
-    // fetch(`http://localhost:8000/api/players/${updatedPlayer.id}`, { method: 'PUT', body: JSON.stringify(updatedPlayer) });
+    // Save to Database
+    fetch(`http://localhost:8000/api/players/${updatedPlayer.id}`, { 
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+           name: editForm.name,
+           position: editForm.position,
+           photo_url: editForm.photo_url
+        })
+    }).catch(e => console.error("Error saving profile:", e));
   };
 
   if (loading) {

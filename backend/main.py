@@ -107,6 +107,11 @@ class PlayerCreate(BaseModel):
     super_tackles: int = 0
     high_5s: int = 0
 
+class PlayerUpdate(BaseModel):
+    name: Optional[str] = None
+    position: Optional[str] = None
+    photo_url: Optional[str] = None
+
 # ---- ML MOCK LOGIC INITIALIZATION ----
 # In a real scenario, we'd train this on historical play-by-play sequence data.
 class KabaddiLSTM(nn.Module):
@@ -273,6 +278,23 @@ def get_player(id: str):
     if not res.data:
         raise HTTPException(status_code=404, detail="Player not found")
     return res.data[0]
+
+@app.put("/api/players/{id}")
+def update_player(id: str, player: PlayerUpdate):
+    if not supabase: return {"error": "Supabase not configured"}
+    
+    update_data = {k: v for k, v in player.model_dump().items() if v is not None}
+    
+    if not update_data:
+        return {"status": "no data to update"}
+
+    try:
+        res = supabase.table("players").update(update_data).eq("id", id).execute()
+        if not res.data:
+            raise HTTPException(status_code=404, detail="Player not found")
+        return res.data[0]
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 @app.get("/api/fixtures/results")
 def get_fixture_results(team: str = None):

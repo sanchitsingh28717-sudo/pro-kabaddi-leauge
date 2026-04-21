@@ -283,9 +283,13 @@ export default function CoachDashboard() {
                        </div>
                     </div>
                   ) : (
-                    <button type="submit" className="w-full py-4 silk-card bg-primary text-[#0e0e0e] font-black text-[10px] tracking-widest rounded-xl hover:scale-[1.02] active:shadow-silk-pressed transition-all border-none hover:shadow-silk-soft shadow-[0_0_15px_rgba(99,102,241,0.1)] flex items-center justify-center gap-2">
-                        {loading ? <Activity className="w-4 h-4 animate-spin" /> : <BrainCircuit className="w-4 h-4" />}
-                        {loading ? 'ANALYZING MATRIX...' : 'RUN TACTICAL CALCULATION'}
+                    <button type="submit" className="w-full relative overflow-hidden group py-5 bg-gradient-to-br from-primary to-indigo-600 text-[#0e0e0e] font-black text-xs md:text-sm tracking-[0.2em] rounded-xl transform transition-all duration-500 hover:scale-[1.05] hover:-translate-y-2 hover:rotate-[1deg] hover:shadow-[0_20px_40px_-5px_rgba(99,102,241,0.6)] shadow-[0_8px_20px_rgba(99,102,241,0.3)] flex items-center justify-center gap-3 border-t border-white/20">
+                        {/* 3D internal highlight */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div className="absolute inset-0 scale-150 rotate-12 opacity-0 group-hover:opacity-20 group-hover:animate-pulse transition-all duration-700 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white/40 via-transparent to-transparent"></div>
+                        
+                        {loading ? <Activity className="w-5 h-5 animate-spin relative z-10 text-white" /> : <BrainCircuit className="w-5 h-5 relative z-10 group-hover:-rotate-12 group-hover:scale-125 transition-transform duration-500 text-black group-hover:text-white" />}
+                        <span className="relative z-10 drop-shadow-sm group-hover:text-white transition-colors duration-500">{loading ? 'ANALYZING MATRIX...' : 'RUN TACTICAL CALCULATION'}</span>
                     </button>
                   )}
                 </div>
