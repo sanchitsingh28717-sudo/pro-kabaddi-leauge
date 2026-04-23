@@ -111,7 +111,16 @@ export default function PlayerDashboard() {
            position: editForm.position,
            photo_url: editForm.photo_url
         })
-    }).catch(e => console.error("Error saving profile:", e));
+    }).then(async res => {
+        if (!res.ok) {
+            const errInfo = await res.json();
+            console.error("Backend DB Error:", errInfo);
+            alert("Database Error: " + (errInfo.detail || "Could not save modifications."));
+        }
+    }).catch(e => {
+        console.error("Network Error saving profile:", e);
+        alert("Network error. Make sure the backend server is running.");
+    });
   };
 
   if (loading) {
